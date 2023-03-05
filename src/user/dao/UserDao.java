@@ -4,7 +4,7 @@ import user.domain.User;
 
 import java.sql.*;
 
-public class UserDao {
+public abstract class UserDao {
     public void add(User user) throws ClassNotFoundException, SQLException {
         Connection c = getConnection();
 
@@ -40,11 +40,21 @@ public class UserDao {
 
     /**
      * DB 연결 관심사의 분리
-     */
     private Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection c = DriverManager.getConnection(
                 "jdbc:mysql://localhost/tobi_spring", "root", "0512");
         return c;
     }
+     */
+
+    /**
+     * 상속을 통한 Dao의 확장
+     * NUserDao, DUserDao와 같이 원하는 대로 커넥션을 생성 가능
+     */
+    public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
+
 }
+
+
+
