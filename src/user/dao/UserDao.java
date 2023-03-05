@@ -5,8 +5,14 @@ import user.domain.User;
 import java.sql.*;
 
 public abstract class UserDao {
+
+    private SimpleConnectionMaker simpleConnectionMaker;
+
+    public UserDao() {
+        this.simpleConnectionMaker = new SimpleConnectionMaker();
+    }
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection c = getConnection();
+        Connection c = simpleConnectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "insert into user(id, name, password) values(?,?,?)"
@@ -22,7 +28,7 @@ public abstract class UserDao {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection c = getConnection();
+        Connection c = simpleConnectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
                 "select * from user where id = ?");
@@ -37,22 +43,6 @@ public abstract class UserDao {
 
         return user;
     }
-
-    /**
-     * DB 연결 관심사의 분리
-    private Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection c = DriverManager.getConnection(
-                "jdbc:mysql://localhost/tobi_spring", "root", "0512");
-        return c;
-    }
-     */
-
-    /**
-     * 상속을 통한 Dao의 확장
-     * NUserDao, DUserDao와 같이 원하는 대로 커넥션을 생성 가능
-     */
-    public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
 
 }
 
