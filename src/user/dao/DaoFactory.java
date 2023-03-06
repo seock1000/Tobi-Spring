@@ -12,9 +12,19 @@ import org.springframework.context.annotation.Configuration;
 public class DaoFactory {
     @Bean
     public UserDao userDao() {
-        ConnectionMaker connectionMaker = connectionMaker();
-        UserDao userDao = new UserDao(connectionMaker);
+        // DI로 주입
+        UserDao userDao = new UserDao(connectionMaker());
         return userDao;
+    }
+
+    @Bean
+    public ConnectionMaker connectionMaker() {
+        // DI로 주입
+        return new CountingConnectionMaker(realConnectionMaker());
+    }
+
+    @Bean ConnectionMaker realConnectionMaker() {
+        return new DConnectionMaker();
     }
 
     @Bean
@@ -29,10 +39,5 @@ public class DaoFactory {
         ConnectionMaker connectionMaker = connectionMaker();
         MessageDao messageDao = new MessageDao(connectionMaker);
         return messageDao;
-    }
-
-    // ConnectionMaker 타입 생성코드 중복제거
-    private ConnectionMaker connectionMaker() {
-        return new DConnectionMaker();
     }
 }

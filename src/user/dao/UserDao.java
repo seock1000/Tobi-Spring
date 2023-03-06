@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class UserDao {
 
-    private ConnectionMaker connectionMaker;
+    final private ConnectionMaker connectionMaker; // 싱글톤 패턴에서 읽기 전용값이므로 final
 
     public UserDao(ConnectionMaker connectionMaker) {
         this.connectionMaker = connectionMaker; // 관계 설정 관심사 분리
