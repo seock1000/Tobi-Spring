@@ -8,8 +8,8 @@ public class UserDao {
 
     private ConnectionMaker connectionMaker;
 
-    public UserDao() {
-        this.connectionMaker = new DConnectionMaker(); // 문제점 : 초기 생성자의 코드가 남아있음
+    public UserDao(ConnectionMaker connectionMaker) {
+        this.connectionMaker = connectionMaker; // 관계 설정 관심사 분리
     }
     public void add(User user) throws ClassNotFoundException, SQLException {
         Connection c = connectionMaker.makeConnection();
@@ -43,7 +43,6 @@ public class UserDao {
 
         return user;
     }
-
 }
 
 
