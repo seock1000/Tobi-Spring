@@ -1,4 +1,5 @@
 import user.dao.DConnectionMaker;
+import user.dao.DaoFactory;
 import user.dao.UserDao;
 import user.domain.User;
 
@@ -7,7 +8,7 @@ import java.sql.SQLException;
 public class TobiSpringMain {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        UserDao dao = new UserDao(new DConnectionMaker()); // 클라이언트가 DB 커넥션 책임
+        UserDao dao = new DaoFactory().userDao(); // DaoFactory가 UserDao를 생성하여 반환
 
         User user = new User();
         user.setId("whiteship");
