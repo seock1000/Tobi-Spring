@@ -25,7 +25,8 @@ public class UserDaoTest {
     }
 
     /**
-     * 테스트 동일 결과 보장
+     * addAndGet 테스트 보완
+     * 여러 유저에 대해서도 작동하는지
      */
     @Test
     public void addAndGet() throws ClassNotFoundException, SQLException {
@@ -33,21 +34,23 @@ public class UserDaoTest {
 
         UserDao dao = context.getBean("userDao", UserDao.class);
 
+        User user1 = new User("ronnie", "염석천", "springno1");
+        User user2 = new User("wonu", "김원우", "springno2");
+
         dao.deleteAll();
         assertThat(dao.getCount(), is(0));
 
-        User user = new User();
-        user.setId("ronnie");
-        user.setName("염석천");
-        user.setPassword("springno1");
+        dao.add(user1);
+        dao.add(user2);
+        assertThat(dao.getCount(), is(2));
 
-        dao.add(user);
-        assertThat(dao.getCount(), is(1));
+        User getUser1 = dao.get(user1.getId());
+        assertThat(getUser1.getName(), is(user1.getName()));
+        assertThat(getUser1.getPassword(), is(user1.getPassword()));
 
-        User getUser = dao.get(user.getId());
-
-        assertThat(getUser.getName(), is(user.getName()));
-        assertThat(getUser.getPassword(), is(user.getPassword()));
+        User getUser2 = dao.get(user2.getId());
+        assertThat(getUser2.getName(), is(user2.getName()));
+        assertThat(getUser2.getPassword(), is(user2.getPassword()));
     }
 
     /**
