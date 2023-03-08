@@ -1,8 +1,5 @@
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
-import user.dao.DConnectionMaker;
-//import user.dao.DaoFactory;
 import user.dao.DaoFactory;
 import user.dao.UserDao;
 import user.domain.User;
