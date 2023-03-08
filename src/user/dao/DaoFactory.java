@@ -25,6 +25,11 @@ public class DaoFactory {
     }
 
     @Bean ConnectionMaker realConnectionMaker() {
+        return getConnection();
+    }
+
+    @Bean
+    public ConnectionMaker getConnection() {
         return new DConnectionMaker();
     }
 

@@ -17,7 +17,7 @@ public class UserDao {
         Connection c = connectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
-                "insert into user(id, name, password) values(?,?,?)"
+                "insert into User(id, name, password) values(?,?,?)"
         );
         ps.setString(1, user.getId());
         ps.setString(2, user.getName());
@@ -33,7 +33,7 @@ public class UserDao {
         Connection c = connectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
-                "select * from user where id = ?");
+                "select * from User where id = ?");
         ps.setString(1, id);
 
         ResultSet rs = ps.executeQuery();
@@ -44,6 +44,34 @@ public class UserDao {
         user.setPassword(rs.getString("password"));
 
         return user;
+    }
+
+    public void deleteAll() throws ClassNotFoundException, SQLException{
+        Connection c = connectionMaker.makeConnection();
+
+        PreparedStatement ps = c.prepareStatement(
+                "delete from User");
+
+        ps.executeUpdate();
+
+        ps.close();
+        c.close();
+    }
+
+    public Integer getCount() throws ClassNotFoundException, SQLException{
+        Connection c = connectionMaker.makeConnection();
+
+        PreparedStatement ps = c.prepareStatement("select count(*) from User");
+
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        Integer count = rs.getInt(1);
+
+        ps.close();
+        rs.close();
+        c.close();
+
+        return count;
     }
 }
 
