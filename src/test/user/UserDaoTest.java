@@ -21,8 +21,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DaoConfig.class})
 public class UserDaoTest {
-    @Autowired private ApplicationContext context;
-    private UserDao dao;
+    @Autowired private UserDao dao;
     private User user1;
     private User user2;
     private User user3;
@@ -33,7 +32,6 @@ public class UserDaoTest {
      */
     @Before
     public void setUp() {
-        this.dao = context.getBean("userDao", UserDao.class);
 
         user1 = new User("ronnie", "염석천", "springno1");
         user2 = new User("wonu", "김원우", "springno2");
