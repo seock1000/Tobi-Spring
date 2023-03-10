@@ -1,6 +1,7 @@
 package test.user;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -16,13 +17,24 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class UserDaoTest {
 
-    @After
-    public void resetUser() throws ClassNotFoundException, SQLException{
+    private UserDao dao;
+    private User user1;
+    private User user2;
+    private User user3;
+
+    /**
+     * 모든 테스트 이전에 작동
+     * UserDao DI
+     */
+    @Before
+    public void setUp() {
         ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
 
-        UserDao dao = context.getBean("userDao", UserDao.class);
+        this.dao = context.getBean("userDao", UserDao.class);
 
-        dao.deleteAll();
+        user1 = new User("ronnie", "염석천", "springno1");
+        user2 = new User("wonu", "김원우", "springno2");
+        user3 = new User("gunuk", "함건욱", "springno3");
     }
 
     /**
@@ -31,12 +43,6 @@ public class UserDaoTest {
      */
     @Test
     public void addAndGet() throws ClassNotFoundException, SQLException {
-        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
-
-        UserDao dao = context.getBean("userDao", UserDao.class);
-
-        User user1 = new User("ronnie", "염석천", "springno1");
-        User user2 = new User("wonu", "김원우", "springno2");
 
         dao.deleteAll();
         assertThat(dao.getCount(), is(0));
@@ -59,12 +65,6 @@ public class UserDaoTest {
      */
     @Test
     public void count() throws ClassNotFoundException, SQLException {
-        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
-
-        UserDao dao = context.getBean("userDao", UserDao.class);
-        User user1 = new User("ronnie", "염석천", "springno1");
-        User user2 = new User("wonu", "김원우", "springno2");
-        User user3 = new User("gunuk", "함건욱", "springno3");
 
         dao.deleteAll();
         assertThat(dao.getCount(), is(0));
@@ -81,9 +81,7 @@ public class UserDaoTest {
 
     @Test(expected = EmptyResultDataAccessException.class)
     public void getUserFailure() throws SQLException, ClassNotFoundException {
-        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
 
-        UserDao dao = context.getBean("userDao", UserDao.class);
         dao.deleteAll();
         assertThat(dao.getCount(), is(0));
 
