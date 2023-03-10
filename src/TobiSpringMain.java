@@ -1,6 +1,6 @@
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import user.dao.DaoFactory;
+import user.dao.DaoConfig;
 import user.dao.UserDao;
 import user.domain.User;
 
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class TobiSpringMain {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class); // DaoFactory를 설정정보로 사용하는 ApplicationContext
+        ApplicationContext context = new AnnotationConfigApplicationContext(DaoConfig.class); // DaoFactory를 설정정보로 사용하는 ApplicationContext
         UserDao dao = context.getBean(UserDao.class); // ApplicationContext를 사용하여 userDao의 오브젝트를 가져옴
 
         User user = new User();

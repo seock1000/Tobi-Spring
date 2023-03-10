@@ -1,8 +1,8 @@
-
 package user.dao;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import user.dao.*;
 
 /**
  * UserDao 생성 책임을 맡은 팩토리 클래스
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * 빈의 생성, 관계설정 등의 제어를 담당하는 IoC 오브젝트 : 빈 팩토리
  */
 @Configuration
-public class DaoFactory {
+public class DaoConfig {
     @Bean
     public UserDao userDao() {
         // DI로 주입
