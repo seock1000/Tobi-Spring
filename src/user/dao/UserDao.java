@@ -31,6 +31,7 @@ public class UserDao {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
+
         Connection c = connectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement(
@@ -56,15 +57,32 @@ public class UserDao {
     }
 
     public void deleteAll() throws ClassNotFoundException, SQLException{
-        Connection c = connectionMaker.makeConnection();
+        Connection c = null;
+        PreparedStatement ps = null;
 
-        PreparedStatement ps = c.prepareStatement(
-                "delete from User");
+        try {
+            c = connectionMaker.makeConnection();
 
-        ps.executeUpdate();
+            ps = c.prepareStatement(
+                    "delete from User");
 
-        ps.close();
-        c.close();
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if(ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                }
+            }
+            if(c != null) {
+                try {
+                    c.close();
+                } catch (SQLException e) {
+                }
+            }
+        }
     }
 
     public Integer getCount() throws ClassNotFoundException, SQLException{
